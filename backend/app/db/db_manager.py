@@ -18,6 +18,7 @@ def get_connection():
     finally:
         conn.close()
 
+# Helpers
 def fetch_one(query: str, params: tuple = ()):
     with get_connection() as conn:
         cur = conn.execute(query, params)
@@ -37,7 +38,7 @@ def execute_returning_id(query: str, params: tuple = ()):
         cur = conn.execute(query, params)
         return cur.lastrowid
 
-
+# Operations
 def get_reservation_types():
     return fetch_all(
         "SELECT id, name, duration_minutes FROM reservation_types"
@@ -122,7 +123,6 @@ def update_reservation_entry(
         (reservation_type_id, start_time, end_time, reservation_id)
     )
 
-
 def delete_reservation_entry(reservation_id: int):
     execute(
         "DELETE FROM reservations WHERE id = ?",
@@ -149,3 +149,10 @@ def get_user_by_id(user_id: int):
         "SELECT * FROM users WHERE id = ?",
         (user_id,)
     )
+
+
+def is_reservation_active():
+    pass
+
+def time_until_end():
+    pass

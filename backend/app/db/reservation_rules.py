@@ -21,9 +21,6 @@ def can_book_type(new_reservation_type: int, existing_reservation_types: list[in
 def overlaps(res_a: Reservation, res_b: Reservation) -> bool:
     return res_a.start_time < res_b.end_time and res_b.start_time < res_a.end_time
 
-def can_start_early(reservation, now, conflicts):
-    return len(conflicts) == 0
-
 def can_edit(reservation_user_id: int, user_id: int) -> bool:
     if reservation_user_id == user_id:
         return True

@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from db.db_manager import *
-from models.reservation_rules import *
+from db.reservation_rules import *
 
 def create_reservation(user_id: int, start: datetime, end: datetime, type: int):
     now = datetime.now()
