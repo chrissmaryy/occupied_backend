@@ -1,4 +1,4 @@
-from db_manager import get_reservation_by_id
+from app.db.db_manager import get_reservation_by_id
 # Welche Reservation-Typen blockieren welche anderen Typen
 BLOCK_MAP = {
     "Duschen": ["Duschen", "Zähne putzen", "Toilette kurz", "Toilette lang"],
