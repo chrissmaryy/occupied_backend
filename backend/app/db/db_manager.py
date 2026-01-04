@@ -58,7 +58,7 @@ def create_reservation_entry(
     reservation_type_id: int,
     start_time: datetime,
     end_time: datetime
-):
+) -> int:
     return execute_returning_id(
         """
         INSERT INTO reservations (user_id, reservation_type_id, start_time, end_time)
@@ -117,7 +117,7 @@ def update_reservation_entry(
     start_time: datetime,
     end_time: datetime
 ):
-    execute(
+    execute_returning_id(
         """
         UPDATE reservations
         SET reservation_type_id = ?, start_time = ?, end_time = ?
