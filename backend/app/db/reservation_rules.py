@@ -1,5 +1,4 @@
-from reservation import Reservation
-
+from db_manager import get_reservation_by_id
 # Welche Reservation-Typen blockieren welche anderen Typen
 BLOCK_MAP = {
     "Duschen": ["Duschen", "Zähne putzen", "Toilette kurz", "Toilette lang"],
@@ -18,8 +17,10 @@ def can_book_type(new_reservation_type: int, existing_reservation_types: list[in
             return False
     return True
 
-def overlaps(res_a: Reservation, res_b: Reservation) -> bool:
-    return res_a.start_time < res_b.end_time and res_b.start_time < res_a.end_time
+def overlaps(res_a: int, res_b: int) -> bool:
+    reservation_a = get_reservation_by_id(res_a)
+    reservation_b = get_reservation_by_id(res_b)
+    return reservation_a["start_time"] < reservation_b["end_time"] and reservation_b["start_time"] < reservation_a["end_time"]
 
 def can_edit(reservation_user_id: int, user_id: int) -> bool:
     if reservation_user_id == user_id:
