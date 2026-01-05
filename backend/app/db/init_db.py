@@ -1,5 +1,5 @@
 import sqlite3
-from seeds import reservation_types
+from seeds import reservation_times
 from pathlib import Path
 
 # Pfad zur SQLite DB
@@ -21,7 +21,7 @@ def create_db_and_execute_schema(DB_PATH, schema_path):
     cursor.executescript(schema_sql)
 
     # Reservation Types einfügen
-    for rt in reservation_types:
+    for rt in reservation_times:
         cursor.execute(
             "INSERT INTO reservation_times (length_in_minutes) VALUES (?)",
             (rt["length_in_minutes"])
