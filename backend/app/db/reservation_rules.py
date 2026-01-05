@@ -1,21 +1,4 @@
 from app.db.db_manager import get_reservation_by_id
-# Welche Reservation-Typen blockieren welche anderen Typen
-BLOCK_MAP = {
-    "Duschen": ["Duschen", "Zähne putzen", "Toilette kurz", "Toilette lang"],
-    "Zähne putzen": ["Duschen", "Toilette lang"],
-    "Toilette kurz": ["Duschen", "Toilette kurz", "Toilette lang"],
-    "Toilette lang": ["Duschen", "Zähne putzen", "Toilette kurz", "Toilette lang"]
-}
-
-def can_book_type(new_reservation_type: int, existing_reservation_types: list[int]) -> bool:
-    """
-    Prüft, ob new_type in Gegenwart von existing_types erlaubt ist.
-    """
-    blocked = BLOCK_MAP.get(new_reservation_type, [])
-    for t in existing_reservation_types:
-        if t in blocked:
-            return False
-    return True
 
 def overlaps(res_a: int, res_b: int) -> bool:
     reservation_a = get_reservation_by_id(res_a)

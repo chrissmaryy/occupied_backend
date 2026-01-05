@@ -40,47 +40,25 @@ def execute_returning_id(query: str, params: tuple = ()):
 
 #-------------------Operations------------------------------------------------------
 
-# Reservation Types
-def get_reservation_types():
-    return fetch_all(
-        "SELECT id, name, duration_minutes FROM reservation_types"
-    )
-
-def get_reservation_type_by_name(name: str):
-    return fetch_one(
-        "SELECT * FROM reservation_types WHERE name = ?",
-        (name,)
-    )
-
 # Reservations
 def create_reservation_entry(
     user_id: int,
-    reservation_type_id: int,
+    is_private: bool,
     start_time: datetime,
     end_time: datetime
 ) -> int:
     return execute_returning_id(
         """
-        INSERT INTO reservations (user_id, reservation_type_id, start_time, end_time)
+        INSERT INTO reservations (user_id, is_private, start_time, end_time)
         VALUES (?, ?, ?, ?)
         """,
-        (user_id, reservation_type_id, start_time, end_time)
+        (user_id, is_private, start_time, end_time)
     )
 
 def get_reservations_between(start: str, end: str):
     return fetch_all(
         """
         SELECT * FROM reservations
-        WHERE start_time < ?
-          AND end_time   > ?
-        """,
-        (end, start)
-    )
-
-def get_reservation_types_between(start: str, end: str):
-    return fetch_all(
-        """
-        SELECT reservation_type_id FROM reservations
         WHERE start_time < ?
           AND end_time   > ?
         """,
@@ -113,17 +91,17 @@ def get_reservations_for_day(date: str):
 
 def update_reservation_entry(
     reservation_id: int,
-    reservation_type_id: int,
+    is_private: bool,
     start_time: datetime,
     end_time: datetime
 ):
     execute_returning_id(
         """
         UPDATE reservations
-        SET reservation_type_id = ?, start_time = ?, end_time = ?
+        SET is_private = ?, start_time = ?, end_time = ?
         WHERE id = ?
         """,
-        (reservation_type_id, start_time, end_time, reservation_id)
+        (is_private, start_time, end_time, reservation_id)
     )
 
 def delete_reservation_entry(reservation_id: int):

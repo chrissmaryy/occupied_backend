@@ -2,21 +2,12 @@ from datetime import datetime, timedelta
 from app.db.db_manager import *
 from app.db.reservation_rules import *
 
-def create_reservation(user_id: int, start: datetime, end: datetime, type: int) -> int:
+def create_reservation(user_id: int, start: datetime, end: datetime, is_private: bool) -> int:
     now = datetime.now()
-
-    # Konfliktcheck    
-    conflicts = can_book_type(type, get_reservation_types_between(
-        start,
-        end
-    ))
-
-    if conflicts:
-        raise ValueError("Cannot book, time blocked")
     
     reservation_id = create_reservation_entry(
         user_id,
-        type,
+        is_private,
         start,
         end
         )
@@ -32,10 +23,10 @@ def get_reservations_per_day(day: datetime):
 def get_reservations_per_user(user_id: int):
     return get_reservations_user(user_id)
 
-def update_reservation(reservation_id: int, reservation_type_id: int, start_time: datetime, end_time: datetime):
+def update_reservation(reservation_id: int, is_private: bool, start_time: datetime, end_time: datetime):
     return update_reservation_entry(
         reservation_id, 
-        reservation_type_id, 
+        is_private, 
         start_time,
         end_time
     )
@@ -68,7 +59,7 @@ def start_reservation_early(reservation_id: int, user_id: int):
 
     update_reservation(
         reservation_id,
-        reservation["reservation_type_id"],
+        reservation["is_private"],
         start_time=now,
         end_time=new_end
     )
@@ -84,7 +75,7 @@ def extend_reservation(reservation_id: int, user_id: int, extension_minutes: int
 
     update_reservation(
         reservation_id,
-        reservation["reservation_type_id"],
+        reservation["is_private"],
         reservation["start_time"],
         new_end_time
     )
@@ -103,7 +94,7 @@ def end_reservation_early(reservation_id: int, user_id: int):
     
     update_reservation(
         reservation_id,
-        reservation["reservation_type_id"],
+        reservation["is_private"],
         reservation["start_time"],
         end_time=now
     )

@@ -23,8 +23,8 @@ def create_db_and_execute_schema(DB_PATH, schema_path):
     # Reservation Types einfügen
     for rt in reservation_types:
         cursor.execute(
-            "INSERT INTO reservation_types (name, description, priority) VALUES (?, ?, ?)",
-            (rt["name"], rt["description"], rt["priority"])
+            "INSERT INTO reservation_times (length_in_minutes) VALUES (?)",
+            (rt["length_in_minutes"])
         )
 
     # Änderungen speichern und Verbindung schließen
