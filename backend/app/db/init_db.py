@@ -6,7 +6,7 @@ from pathlib import Path
 DB_PATH = Path(__file__).resolve().parent.parent / "bathroom.db"
 
 # Pfad zur Schema-Datei
-schema_path = "schema.sql"
+schema_path = Path(__file__).resolve().parent / "schema.sql"
 
 def create_db_and_execute_schema(DB_PATH, schema_path):
     # Verbindung zur DB herstellen (erstellt die Datei, falls sie nicht existiert)
@@ -24,7 +24,7 @@ def create_db_and_execute_schema(DB_PATH, schema_path):
     for rt in reservation_times:
         cursor.execute(
             "INSERT INTO reservation_times (length_in_minutes) VALUES (?)",
-            (rt["length_in_minutes"])
+            (rt["length_in_minutes"],)
         )
 
     # Änderungen speichern und Verbindung schließen

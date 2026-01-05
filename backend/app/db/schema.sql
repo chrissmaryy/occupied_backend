@@ -19,6 +19,5 @@ CREATE TABLE IF NOT EXISTS reservations (
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (reservation_type_id) REFERENCES reservation_types(id)
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
