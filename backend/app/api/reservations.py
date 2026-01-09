@@ -19,25 +19,6 @@ def create_reservation_endpoint(data: ReservationCreateRequest, current_user = D
     except ValueError as e:
         raise HTTPException(status_code=400, details=str(e))
 
-
-@router.get("/day/{date}")
-def get_reservations_for_day_endpoint(date: str):
-    try:
-         return get_reservations_per_day(date)
-    except ValueError as e:
-        raise HTTPException(status_code=400, details=str(e))
-
-@router.get("/user")
-def get_reservation_for_user_endpoint(current_user = Depends(get_current_user)):
-    if current_user is None:
-        raise HTTPException(status_code=400, details=str(e))
-
-    try:
-        return get_reservations_per_user(current_user)
-    except ValueError as e:
-        raise HTTPException(status_code=400, details=str(e))
-
-
 @router.get("/active")
 def get_active_reservation_endpoint():
     now = datetime.now()
@@ -105,3 +86,20 @@ def update_reservation_endpoint(reservation_id: int, data: ReservationUpdateRequ
     if reservation is None:
         return HTTPException(status_code=404, details="Reservation not found")
     return reservation
+
+@router.get("/day/{date}")
+def get_reservations_for_day_endpoint(date: str):
+    try:
+         return get_reservations_per_day(date)
+    except ValueError as e:
+        raise HTTPException(status_code=400, details=str(e))
+
+@router.get("/user")
+def get_reservation_for_user_endpoint(current_user = Depends(get_current_user)):
+    if current_user is None:
+        raise HTTPException(status_code=400, details=str(e))
+
+    try:
+        return get_reservations_per_user(current_user)
+    except ValueError as e:
+        raise HTTPException(status_code=400, details=str(e))
